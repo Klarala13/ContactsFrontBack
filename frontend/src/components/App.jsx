@@ -111,7 +111,7 @@ class App extends React.Component {
         <form className="form-inline mt-2" onSubmit={this.handleSubmit}>
           <div className="row col-lg-12">
 
-            <label>First Name </label>
+            <label>First Name* </label>
             <input
               onChange = {this.handleFirstName}
               type="text"
