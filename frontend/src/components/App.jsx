@@ -1,7 +1,11 @@
 import React from "react";
+import FileUpload from "./FileUpload";
+
+//Styleshits
 import "../css/App.css";
 
 class App extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {};
@@ -19,10 +23,10 @@ class App extends React.Component {
   handleSubmit() {
     const button = document.querySelector("button");
 
-    button.addEventListener("click", event => {
-      event.preventDefault();
+    //  button.addEventListener("click", event => {
+    //    event.preventDefault();
 
-     let object = {
+     const payload = {
       first_name: this.firstName.current.value,
       last_name: this.lastName.current.value,
       mobile_number: this.mobileNumber.current.value,
@@ -31,13 +35,12 @@ class App extends React.Component {
       email: this.email.current.value,
       typeOfAcquaintance: this.checkboxes.current.value
      }
-    });
 
     const url = `http://localhost:4000/app`;
 
     fetch(url, {
       method: "POST",
-      body: JSON.stringify({ name: this.selectedName.current.value }),
+      body: JSON.stringify(payload),
       headers: {
         "Content-Type": "application/json"
       }
@@ -45,7 +48,8 @@ class App extends React.Component {
       .then(res => res.json())
       .then(response => console.log("Success:", JSON.stringify(response)))
       .catch(error => console.error("Error:", error));
-  }
+  })
+
    handleMobileNumber = (e) => {
        if (/^\d+$/.test(e.target.value)){
        this.setState({mobileNumber: true});
@@ -87,6 +91,7 @@ class App extends React.Component {
      } else {this.setState({email: false});
     }
    }
+   
   render() {
     const typeOfAcquaintance = ["work", "social", "family"];
     const checkboxes = typeOfAcquaintance.map(typeOfAcquaintance => (
@@ -113,6 +118,7 @@ class App extends React.Component {
 
             <label>First Name* </label>
             <input
+              value="First Name"
               onChange = {this.handleFirstName}
               type="text"
               className = {this.state.firstName ? "form-control mr-2 col-lg-12 is-valid": "form-control mr-2 col-lg-12 is-invalid"}
@@ -163,6 +169,11 @@ class App extends React.Component {
           <h2> Type of Acquaintance </h2>
          {checkboxes}
 
+         <FileUpload />
+{ this.state.contacts && this.state.contacts.map(contact => {
+  return ( 
+  <li>{contact.email}</li>)
+})}
           <div className= "container"> 
            <button type="button" className="btn btn-dark">
               {" "}
